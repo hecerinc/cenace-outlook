@@ -10,7 +10,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 300;
 }
 .hidden{
-	display: none;
+	display: none !important;
 }
 hr{
 	border-color: #537095;
@@ -80,11 +80,11 @@ hr{
 	flex: 9;
 }
 .col.filters {
-	border-right: 1px solid #537095;
-	padding-right: 40px;
-	padding-top: 40px;
-	padding-bottom: 20px;
+	padding: 40px 40px 20px;
 	margin-top: 10px;
+}
+.col.filters:first-child{
+	border-right: 1px solid #537095;
 }
 .col-3.label{
 	font-size: 20px;

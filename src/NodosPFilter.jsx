@@ -1,6 +1,7 @@
 // NodosPFilter.jsx
 
 import React from 'react';
+import classNames from 'classnames';
 
 const nodosmap = require('./nodosmap.json');
 
@@ -15,6 +16,10 @@ export default class NodosPFilter extends React.Component {
 			selects: {
 				'region': {
 					disabled: false,
+					selected: null
+				},
+				'bas': { 
+					disabled: true,
 					selected: null
 				},
 				'zdc': { 
@@ -66,34 +71,38 @@ export default class NodosPFilter extends React.Component {
 		const selects = {...this.state.selects};
 
 		const region = selects['region'].selected;
+		const balanceArea = selects['bas'].selected;
 		const zdc = selects['zdc'].selected;
 		const nodop = selects['nodosp'].selected;
 
-		selects['zdc'].disabled = region === null;
+		selects['bas'].disabled = region === null;
+		selects['zdc'].disabled = balanceArea === null;
 		selects['nodosp'].disabled = zdc === null;
 
-		if(region !== null){
-			// Get the load zones for this balance area and populate the options with it
-			selects['zdc'].disabled = false;
-			// selects['lzs'].options = getLZs(balanceArea, nextProps.data);
-		}
-		if(zdc !== null){
-			// Get the projects for this load zone and populate the options with it
-			selects['nodosp'].disabled = false;
-			// selects['pjs'].options = getPJs(loadZone, lz_pjs);
-		}
+		// if(region !== null){
+		// 	// Get the load zones for this balance area and populate the options with it
+		// 	selects['bas'].disabled = false;
+		// 	// selects['lzs'].options = getLZs(balanceArea, nextProps.data);
+		// }
+		// if(zdc !== null){
+		// 	// Get the projects for this load zone and populate the options with it
+		// 	selects['nodosp'].disabled = false;
+		// 	// selects['pjs'].options = getPJs(loadZone, lz_pjs);
+		// }
 		this.setState({selects});
 	}
 
 
 	render() {
 		const sels = this.state.selects
-		const zdcs = sels['zdc'].disabled ? [] : Object.keys(nodosmap[sels['region'].selected]);
-		const nodosp = sels['nodosp'].disabled ? [] : Object.keys(nodosmap[sels['region'].selected][sels['zdc'].selected]);
+		const basdata = sels['bas'].disabled ? [] : Object.keys(nodosmap[sels['region'].selected]);
+		const zdcs = sels['zdc'].disabled ? [] : Object.keys(nodosmap[sels['region'].selected][sels['bas'].selected]);
+		const nodosp = sels['nodosp'].disabled ? [] : nodosmap[sels['region'].selected][sels['bas'].selected][sels['zdc'].selected];
+		const classOne = classNames('col', 'filters', {hidden: !this.props.visible});
 		return (
-			<div className="col filters">
+			<div className={classOne}>
 				<div className="row">
-					<div className="col-3 label">Regi&oacute;n de Control: </div>
+					<div className="col-3 label">Sistema: </div>
 					<div className="col-9">
 						<select
 							value={sels['region'].selected || ""}
@@ -107,6 +116,23 @@ export default class NodosPFilter extends React.Component {
 									<option key={'region'+index} value={region}>{regiones[index]}</option>
 								)
 							}
+						</select>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-3 label">Regi&oacute;n de Control: </div>
+					<div className="col-9">
+						<select 
+							value={sels['bas'].selected || ""}
+							name="precios_bas" 
+							id="precios_bas" 
+							disabled={sels['bas'].disabled}
+							onChange={this.handleSelect}
+						>
+							<option value="">---</option>
+							{basdata.map((ba, index) => 
+								<option key={`bas_${index}`} value={ba}>{ba}</option>
+							)}
 						</select>
 					</div>
 				</div>

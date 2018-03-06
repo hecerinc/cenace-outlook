@@ -1,10 +1,12 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import InlineSVG from 'svg-inline-react';
+import classNames from 'classnames';
 
 import NodosPFilter from './NodosPFilter';
 
 import './Precios.css';
+
 
 // const energia = [906.68, 779.66, 699.98, 570.82, 575.25, 761.06, 969.8, 1407.68, 1405.7, 1544.38, 1587.43, 1573.09, 1515.52, 1589.06, 1571.96, 1578.69, 1582.8, 1553.74, 1624.75, 1647.01, 1639.93, 1564.79, 1553.45, 1467.59];
 
@@ -15,7 +17,18 @@ const congestion = [-0.31, -0.2, -1.98, 0, -0.02, -2.2, -0.35, -0.02, 0, -1.37, 
 
 export default class Precios extends React.Component {
 
+	constructor() {
+		super();
+		this.state = {
+			isSecondFilterShown: false
+		};
+		this.showSecondFilter = this.showSecondFilter.bind(this);
+	}
 
+	showSecondFilter(e) {
+		e.preventDefault();
+		this.setState({isSecondFilterShown: true});
+	}
 
 	componentDidMount() {
 		let chart = new Highcharts.Chart('highcharts2', {
@@ -207,7 +220,9 @@ export default class Precios extends React.Component {
 
 	
 	render() {
-		const hideClass = this.props.visible ? 'Precios': 'Precios hidden';
+		const hideClass = classNames('Precios', {hidden: !this.props.visible});
+		const aClass = classNames('col', 'filters', {hidden: this.state.isSecondFilterShown});
+		console.log(aClass);
 		return(
 			<div className={hideClass}>
 				<div className="row">
@@ -221,13 +236,13 @@ export default class Precios extends React.Component {
 				</div>
 				<div className="row">
 
-					<NodosPFilter />
+					<NodosPFilter visible={true} />
 
-					<div className="col scalars">
-						<div className="scalarContainer">
-							<a href="#" className="btn compareNodeBtn">+ Compara NodosP</a>
-						</div>
+					<div className={aClass}>
+						<a href="#" onClick={this.showSecondFilter} className="btn compareNodeBtn">+ Compara NodosP</a>
 					</div>
+					<NodosPFilter visible={this.state.isSecondFilterShown} />
+
 				</div>
 				<div className="row precios_tab">
 					<div className="col-md-3">
