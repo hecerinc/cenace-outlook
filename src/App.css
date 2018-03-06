@@ -1,0 +1,161 @@
+body{
+	background: #1C324A;
+	color: white;
+	margin: 0;
+	padding: 0;
+	font-family: 'Segoe UI', sans-serif;
+	font-weight: 300;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 300;
+}
+hr{
+	border-color: #537095;
+	border: 0 none;
+	border-top: 1px solid #537095;
+	margin-top: 0;
+}
+.App{
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 4%;
+	margin-bottom: 6%;
+}
+.chartContainer{
+	margin-top: 4%;
+}
+
+.fw300{
+	font-weight: 300;
+}
+.firstp{
+	width: 70%;
+	margin-top: 4%;
+}
+.row{
+	display: flex;
+}
+.col{
+	flex: 1;
+}
+.align-right{
+	position: relative;
+}
+.titles h2{
+	margin-bottom: 0;
+	font-size: 2.4rem;
+}
+.titles h3{
+	margin: 0;
+	font-size: 1.6rem;
+	color: #4CF1CD;
+	margin-bottom: 10px;
+}
+.btn.download{
+	position: absolute;
+	right: 0;
+	color: #4CF1CD;
+	border: 1px solid #4CF1CD;
+	text-decoration: none;
+	padding: 15px 30px;
+	font-weight: 400;
+	transition: all 300ms;
+	top: 40px;
+}
+.btn.download:hover{
+	background: #4CF1CD;
+	color: #16452d;
+}
+.datasvg{
+	width: 60px;
+	height: 60px;
+}
+.row .col-3{
+	flex: 3;
+}
+.row .col-9{
+	flex: 9;
+}
+.col.filters {
+	border-right: 1px solid #537095;
+	padding-right: 40px;
+	padding-top: 40px;
+	padding-bottom: 20px;
+	margin-top: 10px;
+}
+.col-3.label{
+	font-size: 20px;
+	text-align: right;
+	padding-right: 40px;
+}
+.filters .row{
+	margin-bottom: 20px;
+}
+.filters .row select{
+	width: 100%;
+	height: 40px;
+	background: transparent;
+	color: #7E97B7;
+	border: 1px solid #537095;
+	padding-left: 10px;
+}
+.scalarContainer{
+	padding: 30px 60px;
+}
+.scalarTable{
+	border-collapse: collapse;
+}
+.scalarTable p{
+	margin: 0;
+
+}
+.scalarTable .figure {
+	font-size: 2rem;
+	/*color: #4CF1CD;*/
+}
+.scalarTable .figure .units {
+	font-size: 20px;
+}
+.scalarTable .desc {
+	font-weight: 600;
+	color: #7E97B7;
+}
+.scalarTable .desc.small{
+	font-size: 14px;
+}
+.scalarTable td{
+	width: 50%;
+	text-align: center;
+	vertical-align: top;
+	padding: 10px 20px;
+}
+.scalarTable tr:first-child td{
+	border-bottom: 1px solid #537095;
+}
+.scalarTable td:last-child{
+	border-left: 1px solid #537095;
+}
+
+.demandaprecio{
+	margin-top: 60px;
+}
+.demandaprecio ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.demandaprecio ul li{
+	display: inline;
+	margin-right: 10px;
+}
+.demandaprecio ul li a{
+	color: #fff;
+	text-decoration: none;
+	font-size: 24px;
+	padding: 0 10px 2px;
+	display: inline-block;
+	transition: all 100ms;
+}
+.demandaprecio a.active, .demandaprecio a:hover{
+	border-bottom: 2px solid #1DD4FF;
+}

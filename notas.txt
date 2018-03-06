@@ -1,0 +1,26 @@
+
+
+Flow: 
+
+1. Entras y no hay datos
+2. Eliges el sistema
+3. Eliges el nodo
+4. Se muestran la grafica
+
+
+Arch:
+
+1. Bajas los datos periodicamente
+2. Guardas una copia del archivo original
+3. Los guardas en un SQL DB
+
+
+Frontend:
+
+1. Asume que ya tienes el JSON (te lo va a entregar el servidor)
+2. Haz el GET request cuando eliga la zona de carga
+3. Grafica los datos
+
+
+
+
