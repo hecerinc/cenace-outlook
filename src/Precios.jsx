@@ -16,7 +16,7 @@ const congestion = [-0.31, -0.2, -1.98, 0, -0.02, -2.2, -0.35, -0.02, 0, -1.37, 
 export default class Precios extends React.Component {
 
 
-	
+
 	componentDidMount() {
 		let chart = new Highcharts.Chart('highcharts2', {
 			chart : {
@@ -207,8 +207,9 @@ export default class Precios extends React.Component {
 
 	
 	render() {
+		const hideClass = this.props.visible ? 'Precios': 'Precios hidden';
 		return(
-			<div className="Precios">
+			<div className={hideClass}>
 				<div className="row">
 					<div className="col titles">
 						<h2>Precios Marginales Locales</h2>

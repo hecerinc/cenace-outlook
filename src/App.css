@@ -9,6 +9,9 @@ body{
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 300;
 }
+.hidden{
+	display: none;
+}
 hr{
 	border-color: #537095;
 	border: 0 none;

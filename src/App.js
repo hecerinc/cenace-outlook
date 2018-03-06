@@ -17,7 +17,11 @@ Highcharts.setOptions({
 class App extends Component {
 	constructor() {
 		super();
+		this.state = {
+			active: 1
+		};
 		this.loadChart = this.loadChart.bind(this);
+		this.toggleView = this.toggleView.bind(this);
 	}
 	loadChart() {
 		let chart = new Highcharts.Chart('chart', {
@@ -222,6 +226,12 @@ class App extends Component {
 	componentDidMount() {
 		// this.loadChart();
 	}
+	toggleView(e) {
+		e.preventDefault();
+		const name = e.target.name;
+		let active = name == "demanda" ? 0 : 1;
+ 		this.setState({active});
+	}
 	render() {
 		return (
 			<div className="App">
@@ -231,15 +241,15 @@ class App extends Component {
 				<p className="firstp">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet molestiae consequuntur ducimus dicta explicabo reiciendis magni dolores tempore dolor enim nulla accusantium, ea velit, a aperiam. Facilis minus minima aperiam officiis ratione at similique perspiciatis fugit quas omnis, ipsum sit eligendi, nostrum autem nisi reiciendis repellendus, aliquam molestiae reprehenderit quasi quo impedit id maxime odit. Libero, reprehenderit. Iusto sit enim, fugit amet expedita, a optio illo molestiae rerum. Quos sed doloremque omnis dolorum similique nemo distinctio, perferendis veniam eos aperiam quo quibusdam culpa expedita laudantium excepturi harum iure odio atque consequuntur delectus. Explicabo vero, nobis hic minus similique voluptates quo!</p>
 				<div className="demandaprecio">
 					<ul>
-						<li><a className="" href="#">Demanda</a></li>
-						<li><a className="active" href="#">Precios</a></li>
+						<li><a name="demanda" onClick={this.toggleView} className={this.state.active !== 1 ? 'active' : ''} href="#">Demanda</a></li>
+						<li><a name="precios" onClick={this.toggleView} className={this.state.active === 1 ? 'active' : ''} href="#">Precios</a></li>
 					</ul>
 					<hr/>
 				</div>
 
-				<Precios />
+				<Precios visible={this.state.active === 1} />
 
-				{/*<Demanda />*/}
+				<Demanda visible={this.state.active !== 1} />
 
 				<p className="footer" style={{textAlign: 'center', marginTop: '40px'}}>2018 &copy; Berkeley Energy and Climate Institute</p>
 			</div>

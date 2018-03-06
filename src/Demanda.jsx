@@ -2,8 +2,9 @@ import React from 'react';
 
 export default class Demanda extends React.Component {
 	render() {
+		const hideClass = this.props.visible ? 'Demanda': 'Demanda hidden';
 		return(
-			<div>
+			<div className={hideClass}>
 				<div className="row">
 					<div className="col titles">
 						<h2>Demanda pronosticada</h2>
