@@ -2,8 +2,9 @@ import React from 'react';
 import Highcharts from 'highcharts';
 import InlineSVG from 'svg-inline-react';
 
+import NodosPFilter from './NodosPFilter';
+
 import './Precios.css';
-var nodosmap = require('./nodosmap.json');
 
 // const energia = [906.68, 779.66, 699.98, 570.82, 575.25, 761.06, 969.8, 1407.68, 1405.7, 1544.38, 1587.43, 1573.09, 1515.52, 1589.06, 1571.96, 1578.69, 1582.8, 1553.74, 1624.75, 1647.01, 1639.93, 1564.79, 1553.45, 1467.59];
 
@@ -11,7 +12,11 @@ const perdidas =  [83.47, 71.4, 63.37, 50.19, 50.64, 70.68, 93.07, 140.65, 136.8
 
 const congestion = [-0.31, -0.2, -1.98, 0, -0.02, -2.2, -0.35, -0.02, 0, -1.37, -1.19, 0, -1.99, -9.97, -5.74, -8.69, -11.76, -10.87, -19.03, -14.57, -18.24, -17.25, -17.77, -17.27];
 
+
 export default class Precios extends React.Component {
+
+
+	
 	componentDidMount() {
 		let chart = new Highcharts.Chart('highcharts2', {
 			chart : {
@@ -199,6 +204,8 @@ export default class Precios extends React.Component {
 			]
 		});
 	}
+
+	
 	render() {
 		return(
 			<div className="Precios">
@@ -212,52 +219,9 @@ export default class Precios extends React.Component {
 					</div>
 				</div>
 				<div className="row">
-					<div className="col filters">
-						<div className="row">
-							<div className="col-3 label"> Regi&oacute;n de Control: </div>
-							<div className="col-9">
-								<select value="3" name="precios_region" id="precios_region">
-									<option value="">---</option>
-									<option value="1">Baja California</option>
-									<option value="2">Baja California Sur</option>
-									<option value="3">Central</option>
-									<option value="4">Noreste</option>
-									<option value="5">Noroeste</option>
-									<option value="6">Norte</option>
-									<option value="7">Occidental</option>
-									<option value="8">Oriental</option>
-									<option value="9">Peninsular</option>
-								</select>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-3 label">
-								Zona de Carga: 
-							</div>
-							<div className="col-9">
-								<select name="precios_zdc" id="precios_zdc" value="5">
-									<option value="">---</option>
-									<option value="1">Sistema Interconectado Nacional (SIN)</option>
-									<option value="2">Baja California (BCA)</option>
-									<option value="3">Baja California Sur (BCS)</option>
-									<option value="4">Mulege</option>
-									<option value="5">VDM Norte</option>
-								</select>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-3 label">
-								NodoP:
-							</div>
-							<div className="col-9">
-								<select name="nodop" id="nodop" value="1">
-									<option value="">---</option>
-									<option value="1">01AAN-85</option>
-								</select>
-							</div>
-						</div>
-						
-					</div>
+
+					<NodosPFilter />
+
 					<div className="col scalars">
 						<div className="scalarContainer">
 							<a href="#" className="btn compareNodeBtn">+ Compara NodosP</a>
