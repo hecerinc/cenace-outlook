@@ -7,6 +7,9 @@ import NodosPFilter from './NodosPFilter';
 
 import './Precios.css';
 
+const masterdata = require('./todaydata.json');
+
+
 
 // const energia = [906.68, 779.66, 699.98, 570.82, 575.25, 761.06, 969.8, 1407.68, 1405.7, 1544.38, 1587.43, 1573.09, 1515.52, 1589.06, 1571.96, 1578.69, 1582.8, 1553.74, 1624.75, 1647.01, 1639.93, 1564.79, 1553.45, 1467.59];
 
@@ -20,9 +23,12 @@ export default class Precios extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			isSecondFilterShown: false
+			isSecondFilterShown: false,
+			selectedNode: null
 		};
 		this.showSecondFilter = this.showSecondFilter.bind(this);
+		this.changeNodeData = this.changeNodeData.bind(this);
+		this.updateNode = this.updateNode.bind(this);
 	}
 
 	showSecondFilter(e) {
@@ -145,58 +151,11 @@ export default class Precios extends React.Component {
 				}
 			},
 			series : [
-				// {
-				// 	name : 'Demanda real',
-				// 	type : "area",
-				// 	lineWidth: 3,
-				// 	fillColor : {
-				// 		linearGradient : {
-				// 			x1: 0,
-				// 			x2: 0,
-				// 			y1: 0,
-				// 			y2: 1,
-				// 		},
-				// 		stops : [
-				// 			[0, 'rgba(59,176,254, .3)'],
-				// 			[1, 'rgba(59,176,254, 0)']
-				// 			// [1, Highcharts.getOptions().colors[0]]
-				// 		]
-				// 	},
-				// 	// Define the data points. All series have a dummy year
-				// 	// of 1970/71 in order to be compared on the same x axis. Note
-				// 	// that in JavaScript, months start at 0 for January, 1 for February etc.
-				// 	data : [
-				// 		// demanda real
-				// 		[0,29333.363076],
-				// 		[1,28113.642925],
-				// 		[2,27450.03522],
-				// 		[3,27021.877871],
-				// 		[4,27045.440327],
-				// 		[5,27886.300593],
-				// 		[6,29586.168853],
-				// 		[7,31034.343695],
-				// 		[8,31724.719465],
-				// 		[9,32784.9468],
-				// 		[10,33224.347835],
-				// 		[11,33452.440692],
-				// 		[12,33758.117244],
-				// 		[13,33706.186002],
-				// 		[14,33841.876065],
-				// 		[15,33959.647386],
-				// 		[16,33875.240466],
-				// 		[17,34120.903698],
-				// 		[18,35378.774527],
-				// 		[19,35639.621831],
-				// 		// [20,35241.728668],
-				// 		// [21,33932.042597],
-				// 		// [22,32773.804802],
-				// 		// [23,31292.819838]
-				// 	]
-				// }, 
 				{
 					name : 'Componente energía',
-					// type : "line",
 					color: '#F3CF62',
+					// type : "line",
+					
 					// fillColor : {
 					// 	linearGradient : [0, 0, 0, 300],
 					// 	stops : [
@@ -204,21 +163,42 @@ export default class Precios extends React.Component {
 					// 		[1, 'rgba(2,0,0,0)']
 					// 	]
 					// },
-					data : [906.68, 779.66, 699.98, 570.82, 575.25, 761.06, 969.8, 1407.68, 1405.7, 1544.38, 1587.43, 1573.09, 1515.52, 1589.06, 1571.96, 1578.69, 1582.8, 1553.74, 1624.75, 1647.01, 1639.93, 1564.79, 1553.45, 1467.59]
+					data : [906.68, 779.66, 699.98, 570.82, 575.25, 761.06, 969.8, 1407.68, 1405.7, 1544.38, 1587.43, 1573.09, 1515.52, 1589.06, 1571.96, 1578.69, 1582.8, 1553.74, 1624.75, 1647.01, 1639.93, 1564.79, 1553.45, 1467.59],
+					borderWidth: 0,
 				},
 				{
 					name: 'Component pérdidas',
-					data: perdidas
+					data: perdidas,
+					borderWidth: 0,
 				},
 				{
 					name: 'Componente congestión',
-					data: congestion
+					color: '#FE8000',
+					data: congestion,
+					borderWidth: 0,
 				}
 			]
 		});
+		this.chart = chart;
 	}
-
-	
+	updateNode(node) {
+		this.setState({selectedNode: node});
+		this.changeNodeData(node);
+	}
+	changeNodeData(node) {
+		const nodeData = masterdata[node];
+		this.chart.series[0].update({
+			data: nodeData['energia']
+		}, true);
+		this.chart.series[1].update({
+			data: nodeData['perdidas']
+		}, true);
+		this.chart.series[2].update({
+			data: nodeData['congestion']
+		}, true);
+		this.chart.setTitle(null, {text: `Nodo: ${node}`});
+		this.chart.redraw();
+	}
 	render() {
 		const hideClass = classNames('Precios', {hidden: !this.props.visible});
 		const aClass = classNames('col', 'filters', {hidden: this.state.isSecondFilterShown});
@@ -230,13 +210,10 @@ export default class Precios extends React.Component {
 						<h2>Precios Marginales Locales</h2>
 						<h3>{new Date().toLocaleString().split(',')[0]}</h3>
 					</div>
-					<div className="col align-right">
-						<a href="#" className="btn download">Descarga los datos</a>
-					</div>
 				</div>
 				<div className="row">
 
-					<NodosPFilter visible={true} />
+					<NodosPFilter changeNodeData={this.changeNodeData} visible={true} updateNode={this.updateNode} />
 
 					<div className={aClass}>
 						<a href="#" onClick={this.showSecondFilter} className="btn compareNodeBtn">+ Compara NodosP</a>

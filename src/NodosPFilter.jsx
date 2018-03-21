@@ -42,6 +42,17 @@ export default class NodosPFilter extends React.Component {
 		const selectName = e.target.name.split('_')[1];
 		const selects = {...this.state.selects};
 		selects[selectName].selected = val;
+		if(selectName == "region"){
+			selects['bas'].selected = null;
+			selects['zdc'].selected = null;
+		}
+		if(selectName == "bas"){
+			selects['zdc'].selected = null;
+			selects['nodosp'].selected = null;
+		}
+		if(selectName === "nodosp" && val != ""){
+			this.props.updateNode(val);
+		}
 		this.setState({selects});
 		this.populateSelects();
 	}
