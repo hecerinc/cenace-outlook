@@ -1,3 +1,19 @@
+CREATE TABLE zones (
+	id int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	sistema VARCHAR(255),
+	region VARCHAR(255),
+	zona VARCHAR(255)
+);
+
+CREATE TABLE nodes (
+	id int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	nodo_id VARCHAR(30) NOT NULL,
+	nombre VARCHAR(255),
+	zone_id int(11) UNSIGNED NOT NULL,
+	FOREIGN KEY(zone_id) REFERENCES zones(id)
+);
+
+
 CREATE TABLE precios (
 	id int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	fecha DATE NOT NULL,
@@ -7,7 +23,7 @@ CREATE TABLE precios (
 	energia DECIMAL(19,4),
 	perdidas DECIMAL(19,4),
 	congestion DECIMAL(19,4),
-	FOREIGN KEY node_id REFERENCES nodes(id)
+	FOREIGN KEY(node_id) REFERENCES nodes(id)
 );
 
 CREATE TABLE demanda (
@@ -17,16 +33,7 @@ CREATE TABLE demanda (
 	cdm DECIMAL(5,4),
 	cim DECIMAL(5,4),
 	eta DECIMAL(5,4),
-	FOREIGN KEY zdc_id REFERENCES zones(id)
+	FOREIGN KEY(zdc_id) REFERENCES zones(id)
 );
 
 
-CREATE TABLE nodes (
-	id int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	nodo_id
-);
-
-CREATE TABLE zones (
-	id int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	name
-);
