@@ -202,7 +202,6 @@ export default class Precios extends React.Component {
 	render() {
 		const hideClass = classNames('Precios', {hidden: !this.props.visible});
 		const aClass = classNames('col', 'filters', {hidden: this.state.isSecondFilterShown});
-		console.log(aClass);
 		return(
 			<div className={hideClass}>
 				<div className="row">
@@ -218,7 +217,7 @@ export default class Precios extends React.Component {
 					<div className={aClass}>
 						<a href="#" onClick={this.showSecondFilter} className="btn compareNodeBtn">+ Compara NodosP</a>
 					</div>
-					<NodosPFilter visible={this.state.isSecondFilterShown} />
+					<NodosPFilter changeNodeData={_  => {return true;}} visible={this.state.isSecondFilterShown} />
 
 				</div>
 				<div className="row precios_tab">

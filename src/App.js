@@ -4,6 +4,7 @@ import InlineSVG from 'svg-inline-react';
 import './App.css';
 import Precios from './Precios';
 import Demanda from './Demanda';
+import DatosFrame from './Datos';
 /* eslint import/no-webpack-loader-syntax: off */
 
 Highcharts.setOptions({
@@ -13,13 +14,15 @@ Highcharts.setOptions({
 		}
 	}
 });
-
+const sectionNames = {
+	'demanda': 1,
+	'precios': 2,
+	'datos': 3
+};
 class App extends Component {
 	constructor() {
 		super();
-		this.state = {
-			active: 1
-		};
+		this.state = {active: 3 };
 		this.loadChart = this.loadChart.bind(this);
 		this.toggleView = this.toggleView.bind(this);
 	}
@@ -229,7 +232,7 @@ class App extends Component {
 	toggleView(e) {
 		e.preventDefault();
 		const name = e.target.name;
-		let active = name == "demanda" ? 0 : 1;
+		let active = sectionNames[name];
  		this.setState({active});
 	}
 	render() {
@@ -241,16 +244,17 @@ class App extends Component {
 				<p className="firstp">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet molestiae consequuntur ducimus dicta explicabo reiciendis magni dolores tempore dolor enim nulla accusantium, ea velit, a aperiam. Facilis minus minima aperiam officiis ratione at similique perspiciatis fugit quas omnis, ipsum sit eligendi, nostrum autem nisi reiciendis repellendus, aliquam molestiae reprehenderit quasi quo impedit id maxime odit. Libero, reprehenderit. Iusto sit enim, fugit amet expedita, a optio illo molestiae rerum. Quos sed doloremque omnis dolorum similique nemo distinctio, perferendis veniam eos aperiam quo quibusdam culpa expedita laudantium excepturi harum iure odio atque consequuntur delectus. Explicabo vero, nobis hic minus similique voluptates quo!</p>
 				<div className="demandaprecio">
 					<ul>
-						<li><a name="demanda" onClick={this.toggleView} className={this.state.active !== 1 ? 'active' : ''} href="#">Demanda</a></li>
-						<li><a name="precios" onClick={this.toggleView} className={this.state.active === 1 ? 'active' : ''} href="#">Precios</a></li>
+						<li><a name="demanda" onClick={this.toggleView} className={this.state.active === 1 ? 'active' : ''} href="#">Demanda</a></li>
+						<li><a name="precios" onClick={this.toggleView} className={this.state.active === 2 ? 'active' : ''} href="#">Precios</a></li>
 						<li><a name="datos" onClick={this.toggleView} className={this.state.active == 3 ? 'active' : ''} href="#">Datos</a></li>
 					</ul>
 					<hr/>
 				</div>
 
-				<Precios visible={this.state.active === 1} />
 
-				<Demanda visible={this.state.active !== 1} />
+				<Demanda visible={this.state.active === 1} />
+				<Precios visible={this.state.active === 2} />
+				<DatosFrame visible={this.state.active === 3} />
 
 				<p className="footer" style={{textAlign: 'center', marginTop: '40px'}}>2018 &copy; Berkeley Energy and Climate Institute</p>
 			</div>
