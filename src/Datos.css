@@ -1,0 +1,32 @@
+.DatosFrame h2{
+	/*margin-bottom: 40px;*/
+}
+
+.DatosFrame .col.filters{
+	padding: 0 40px 40px;
+}
+.mb5{
+	margin-bottom: 40px !important;
+}
+.DatosFrame .btn.download {
+	width: 100% !important;
+	text-align: center;
+	display: block;
+}
+.DatosFrame .maincol h3{
+	margin-bottom: 40px;
+	font-size: 1.6rem;
+	color: #4CF1CD;
+}
+.DatosFrame .maincol:first-child{
+	padding-left: 0;
+}
+.DatosFrame .NodosPFilter.filters{
+	padding: 0;
+	margin-bottom: 40px;
+}
+.DatosFrame .NodosPFilter.filters .label{
+	text-align: left;
+}
+
+

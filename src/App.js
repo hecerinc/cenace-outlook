@@ -185,15 +185,16 @@ class App extends Component {
 				// }, 
 				{
 					name : 'Pronóstico MDA',
-					type : "line",
+					type : "area",
 					color: '#F3CF62',
-					// fillColor : {
-					// 	linearGradient : [0, 0, 0, 300],
-					// 	stops : [
-					// 		[0, Highcharts.getOptions().colors[1]],
-					// 		[1, 'rgba(2,0,0,0)']
-					// 	]
-					// },
+					fillColor : {
+						linearGradient : [0, 0, 0, 300],
+						stops : [
+							//[0, Highcharts.getOptions().colors[1]],
+							[0, 'rgba(243,207,98, .3)'],
+							[1, 'rgba(243,207,98, 0)']
+						]
+					},
 					data : [
 						// pronostico
 						[0, 27918.384],
@@ -256,7 +257,7 @@ class App extends Component {
 				<Precios visible={this.state.active === 2} />
 				<DatosFrame visible={this.state.active === 3} />
 
-				<p className="footer" style={{textAlign: 'center', marginTop: '40px'}}>2018 &copy; Berkeley Energy and Climate Institute</p>
+				<p className="footer" style={{textAlign: 'center', marginTop: '60px'}}>2018 &copy; Berkeley Energy and Climate Institute</p>
 			</div>
 		);
 	}

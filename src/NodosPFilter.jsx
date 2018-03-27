@@ -109,7 +109,9 @@ export default class NodosPFilter extends React.Component {
 		const basdata = sels['bas'].disabled ? [] : Object.keys(nodosmap[sels['region'].selected]);
 		const zdcs = sels['zdc'].disabled ? [] : Object.keys(nodosmap[sels['region'].selected][sels['bas'].selected]);
 		const nodosp = sels['nodosp'].disabled ? [] : nodosmap[sels['region'].selected][sels['bas'].selected][sels['zdc'].selected];
-		const classOne = classNames('col', 'filters', {hidden: !this.props.visible});
+		// TODO: parent element has same class. Remove one
+		const classOne = classNames('col', 'filters', 'NodosPFilter', {hidden: this.props.visible === undefined ? false : !this.props.visible});
+		const nodesClass = classNames('row', {hidden: this.props.hideNodes !== undefined});
 		return (
 			<div className={classOne}>
 				<div className="row">
@@ -163,7 +165,7 @@ export default class NodosPFilter extends React.Component {
 						</select>
 					</div>
 				</div>
-				<div className="row">
+				<div className={nodesClass}>
 					<div className="col-3 label">NodoP: </div>
 					<div className="col-9">
 						<select 

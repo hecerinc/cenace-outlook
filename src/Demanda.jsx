@@ -13,11 +13,6 @@ export default class Demanda extends React.Component {
 						<h2>Demanda pronosticada</h2>
 						<h3>{new Date().toLocaleString().split(',')[0]}</h3>
 					</div>
-					<div className="col align-right">
-						<a href="#" className="btn download"> 
-							Descarga los datos 
-						</a>
-					</div>
 				</div>
 				<hr/>
 				<div className="row">

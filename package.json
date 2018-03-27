@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "highcharts": "^6.0.4",
+    "office-ui-fabric-react": "^5.72.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.0",
