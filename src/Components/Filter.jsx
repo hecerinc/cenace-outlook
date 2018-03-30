@@ -65,8 +65,8 @@ export default class Filter extends React.Component {
 			selects['zdc'].selected = null;
 			selects['nodosp'].selected = null;
 		}
-		if(selectName === "nodosp" && val !== ""){
-			this.props.updateNode(val);
+		if(val !== "") {
+			this.props.updateNode(selectName, val);
 		}
 		this.setState({selects});
 		this.populateSelects();
@@ -128,6 +128,7 @@ export default class Filter extends React.Component {
 				{Object.keys(sels).map((select, index) => {
 					return (
 						<FilterPres
+							key={`filterpres_${index}`}
 							selectVar={sels[select]} 
 							name={select} 
 							data={dataArr[index]} 

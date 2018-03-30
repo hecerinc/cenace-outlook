@@ -28,6 +28,7 @@ CREATE TABLE precios (
 
 CREATE TABLE demanda (
 	id int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	fecha DATE NOT NULL,
 	zdc_id int(11) UNSIGNED NOT NULL,
 	hora TINYINT UNSIGNED NOT NULL,
 	cdm DECIMAL(5,4),
@@ -37,3 +38,4 @@ CREATE TABLE demanda (
 );
 
 
+-- ALTER TABLE demanda ADD fecha DATE NOT NULL AFTER `id`;

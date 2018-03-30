@@ -1,6 +1,7 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 
+import Filter from './Filter';
 
 Highcharts.setOptions({
 	chart: {
@@ -10,30 +11,41 @@ Highcharts.setOptions({
 	}
 });
 
+
 let dateOpts = {year: 'numeric', month: 'long', day: 'numeric' };
+
+const todayData = require('../data/todayDemand.json');
+
+const defaultData = todayData['SIN']['MONTERREY'];
+
 export default class Demanda extends React.Component {
+
 	constructor() {
 		super();
+		this.state = {
+			selectedSystem: 'SIN',
+			selectedZone: null
+		};
 		this.loadChart = this.loadChart.bind(this);
+		this.selectZone = this.selectZone.bind(this);
+		this.selectFilterUpdated = this.selectFilterUpdated.bind(this);
 	}
 	componentDidMount() {
 		this.loadChart();
 	}
 	loadChart() {
-		let chart = new Highcharts.Chart('chart', {
+		this.chart = new Highcharts.Chart('chart', {
 			chart : {
 				type : 'spline',
 				backgroundColor : 'transparent'
 			},
 			title : {
 				text : 'Demanda pronosticada',
-				style: {
-					color: "#fff"
-				}
+				style: {color: "#fff"}
 			},
 			subtitle : {
-				// TODO: translate
-				text : new Date().toLocaleDateString('es-MX', dateOpts),
+				//text : ,
+				text : `MONTERREY  |  ${(new Date().toLocaleDateString('es-MX', dateOpts))}`,
 				style: {
 					color: "#fff"
 				}
@@ -100,7 +112,6 @@ export default class Demanda extends React.Component {
 						return Highcharts.numberFormat(this.value, 0, '', ',');
 					}
 				},
-				min : 18000
 			},
 			tooltip : {
 				formatter : function () {
@@ -129,101 +140,62 @@ export default class Demanda extends React.Component {
 				}
 			},
 			series : [
-				// {
-				// 	name : 'Demanda real',
-				// 	type : "area",
-				// 	lineWidth: 3,
-				// 	fillColor : {
-				// 		linearGradient : {
-				// 			x1: 0,
-				// 			x2: 0,
-				// 			y1: 0,
-				// 			y2: 1,
-				// 		},
-				// 		stops : [
-				// 			[0, 'rgba(59,176,254, .3)'],
-				// 			[1, 'rgba(59,176,254, 0)']
-				// 			// [1, Highcharts.getOptions().colors[0]]
-				// 		]
-				// 	},
-				// 	// Define the data points. All series have a dummy year
-				// 	// of 1970/71 in order to be compared on the same x axis. Note
-				// 	// that in JavaScript, months start at 0 for January, 1 for February etc.
-				// 	data : [
-				// 		// demanda real
-				// 		[0,29333.363076],
-				// 		[1,28113.642925],
-				// 		[2,27450.03522],
-				// 		[3,27021.877871],
-				// 		[4,27045.440327],
-				// 		[5,27886.300593],
-				// 		[6,29586.168853],
-				// 		[7,31034.343695],
-				// 		[8,31724.719465],
-				// 		[9,32784.9468],
-				// 		[10,33224.347835],
-				// 		[11,33452.440692],
-				// 		[12,33758.117244],
-				// 		[13,33706.186002],
-				// 		[14,33841.876065],
-				// 		[15,33959.647386],
-				// 		[16,33875.240466],
-				// 		[17,34120.903698],
-				// 		[18,35378.774527],
-				// 		[19,35639.621831],
-				// 		// [20,35241.728668],
-				// 		// [21,33932.042597],
-				// 		// [22,32773.804802],
-				// 		// [23,31292.819838]
-				// 	]
-				// }, 
+				// FUTURE: Add real demand when data becomes available
+				// { name : 'Demanda real' },
 				{
 					name : 'Pronóstico MDA',
 					type : "area",
-					color: '#F3CF62',
+					// color: '#F3CF62',
+					color: '#4CF1CD',
 					fillColor : {
 						linearGradient : [0, 0, 0, 300],
 						stops : [
 							//[0, Highcharts.getOptions().colors[1]],
-							[0, 'rgba(243,207,98, .3)'],
-							[1, 'rgba(243,207,98, 0)']
+							[0, 'rgba(76,241,205, .3)'],
+							[1, 'rgba(76,241,205, 0)']
 						]
 					},
-					data : [
-						// pronostico
-						[0, 27918.384],
-						[1,  27003.64],
-						[2, 26308.963],
-						[3, 25955.336],
-						[4, 25939.707],
-						[5, 26600.559],
-						[6, 28007.149],
-						[7, 29004.471],
-						[8, 30069.292],
-						[9, 30983.938],
-						[10,31731.574],
-						[11,32078.744],
-						[12,32428.724],
-						[13,32334.966],
-						[14,32207.174],
-						[15,32312.408],
-						[16,32328.769],
-						[17,32203.979],
-						[18,33424.333],
-						[19,34143.305],
-						[20, 33620.52],
-						[21,32493.885],
-						[22,31395.863],
-						[23,29972.058]
-					]
+					data : defaultData
 				}
 			]
 		});
 
 	}
 
+	selectZone(zdc) {
+		// Send the request
+		const sistema = this.state.selectedSystem;
+		const zonedata = todayData[sistema][zdc];
+		console.log(zonedata);
+		console.log(this.chart.series[0]);
+		console.log(this.chart.series[0].update);
+		this.chart.series[0].update({data: zonedata}, false);
+		this.chart.setTitle(null, {text: `${zdc} | ${(new Date().toLocaleDateString('es-MX', dateOpts))}`});
+		this.chart.redraw();
+		// TODO: Maybe remove this?
+		// this.setState({selectedZone: zdc});
+	}
+	selectFilterUpdated(filterName, newVal) {
+		switch(filterName) {
+			case "zdc":
+				this.selectZone(newVal);
+			break;
+			case "region":
+				// We don't want to rerender when this is updated
+				this.setState({selectedSystem: newVal});
+			break;
+			default:
+			break;
+		}
+	}
+	shouldComponentUpdate(nextProps, nextState) {
+		// Means you're updating something else
+		return nextState.selectedSystem === this.state.selectedSystem;
+	}
+
 	render() {
 
+		// TODO: swap this out for React Router
 		const hideClass = this.props.visible ? 'Demanda': 'Demanda hidden';
 		
 		return(
@@ -236,33 +208,9 @@ export default class Demanda extends React.Component {
 				</div>
 				<hr/>
 				<div className="row">
-					<div className="col filters">
-						<div className="row">
-							<div className="col-3 label">
-								Sistema:
-							</div>
-							<div className="col-9">
-								<select name="sistema" id="sistema">
-									<option value="">---</option>
-									<option value="1">Sistema Interconectado Nacional (SIN)</option>
-									<option value="2">Baja California (BCA)</option>
-									<option value="3">Baja California Sur (BCS)</option>
-									<option value="4">Mulege</option>
-								</select>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-3 label">
-								Zona de Carga (NodosP Distribuidos)
-							</div>
-							<div className="col-9">
-								<select name="sistema" id="sistema">
-									<option value="">---</option>
-								</select>
-							</div>
-						</div>
-						
-					</div>
+
+					<Filter depth={3} updateNode={this.selectFilterUpdated} />
+
 					<div className="col scalars">
 						<div className="scalarContainer">
 							<table className="scalarTable">

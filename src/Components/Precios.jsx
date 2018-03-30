@@ -180,9 +180,11 @@ export default class Precios extends React.Component {
 		});
 		this.chart = chart;
 	}
-	updateNode(node) {
-		this.setState({selectedNode: node});
-		this.changeNodeData(node);
+	updateNode(fieldName, nodeValue) {
+		if(fieldName == "nodosp") {
+			this.setState({selectedNode: nodeValue});
+			this.changeNodeData(nodeValue);
+		}
 	}
 	changeNodeData(node) {
 		const nodeData = masterdata[node];
@@ -234,6 +236,9 @@ export default class Precios extends React.Component {
 							<div id="highcharts2"></div>
 						</div>
 					</div>
+				</div>
+				<div className="row">
+					<h1>MAPA</h1>
 				</div>
 			</div>
 		);
