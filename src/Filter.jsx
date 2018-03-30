@@ -8,7 +8,7 @@ const nodosmap = require('./nodosmap.json');
 const regiones = ['Sistema Interconectado Nacional', 'Baja California', 'Baja California Sur'];
 
 
-export default class NodosPFilter extends React.Component {
+export default class Filter extends React.Component {
 
 	constructor() {
 		super();
@@ -42,11 +42,11 @@ export default class NodosPFilter extends React.Component {
 		const selectName = e.target.name.split('_')[1];
 		const selects = {...this.state.selects};
 		selects[selectName].selected = val;
-		if(selectName == "region"){
+		if(selectName === "region"){
 			selects['bas'].selected = null;
 			selects['zdc'].selected = null;
 		}
-		if(selectName == "bas"){
+		if(selectName === "bas"){
 			selects['zdc'].selected = null;
 			selects['nodosp'].selected = null;
 		}

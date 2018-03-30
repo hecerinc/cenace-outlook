@@ -21,3 +21,4 @@ The following nodes are in SIN but not in the nodeslist:
 
 `fecha,hora,node_id,pml,energia,perdidas,congestion`
 
+- Los datos estan disponibles (para los 3 sistemas) a partir de abril de 2014
