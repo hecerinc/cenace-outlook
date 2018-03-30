@@ -31,9 +31,9 @@ CREATE TABLE demanda (
 	fecha DATE NOT NULL,
 	zdc_id int(11) UNSIGNED NOT NULL,
 	hora TINYINT UNSIGNED NOT NULL,
-	cdm DECIMAL(5,4),
-	cim DECIMAL(5,4),
-	eta DECIMAL(5,4),
+	cdm DECIMAL(19,4),
+	cim DECIMAL(19,4),
+	eta DECIMAL(19,4),
 	FOREIGN KEY(zdc_id) REFERENCES zones(id)
 );
 

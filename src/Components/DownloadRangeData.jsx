@@ -9,8 +9,8 @@ import {
 import '../style/DownloadRangeData.css';
 
 // const today: Date = new Date();
-const minDate: Date = new Date('2018-03-20');
-const maxDate: Date = new Date('2018-03-30');
+const minDate: Date = new Date('2017-01-02');
+const maxDate: Date = new Date('2017-12-31');
 
 const DayPickerStrings: IDatePickerStrings = {
 	months: [
@@ -77,37 +77,57 @@ const DayPickerStrings: IDatePickerStrings = {
 };
 
 export default class DownloadRangeData extends React.Component {
+	// constructor() {
+	// 	super();
+	// 	this.state = {
+	// 		precios: {
+	// 			startDate: null,
+	// 			endDate: null,
+	// 		},
+	// 		demanda: {
+	// 			startDate: null,
+	// 			endDate: null,
+	// 		}
+	// 	}
+	// }
 	render() {
+		console.log(this.props.downloadURL);
 		return(
 			<div className="DownloadRangeData">
 				<div className="row">
 					<div className="startdate col">
 						<h4>Fecha inicial</h4>
 						<DatePicker
-							isRequired={ false }
+							isRequired={ true }
+							onSelectDate = {newDate => {this.props.onSelectDate(newDate, "startDate")}}
 							firstDayOfWeek={ DayOfWeek.Sunday }
 							strings={ DayPickerStrings }
 							placeholder='Select a date...'
 							minDate={ minDate }
 							maxDate={ maxDate }
-							allowTextInput={ true }
+							allowTextInput={ false }
+							value={this.props.start}
 						/>
 					</div>
 					<div className="enddate col" style={{paddingLeft: '20px'}}>
 						<h4>Fecha final</h4>
 						<DatePicker
-							isRequired={ false }
+							isRequired={ true }
+							onSelectDate = {newDate => {this.props.onSelectDate(newDate, "endDate")}}
 							firstDayOfWeek={ DayOfWeek.Sunday }
 							strings={ DayPickerStrings }
 							placeholder='Select a date...'
 							minDate={ minDate }
 							maxDate={ maxDate }
-							allowTextInput={ true }
+							allowTextInput={ false }
+							value={this.props.end}
 						/>
 					</div>
 				</div>
-				<a href="#" className="download btn">Descargar</a>
+				<a target="_blank" rel="noopener noreferrer" href={this.props.downloadURL || '#'} className="download btn">Descargar</a>
 			</div>
 		);
 	}
 }
+// JV?(]vCce!UU
+// hectorr1_outlook

@@ -213,12 +213,12 @@ export default class Precios extends React.Component {
 				</div>
 				<div className="row">
 
-					<NodosPFilter changeNodeData={this.changeNodeData} visible={true} updateNode={this.updateNode} />
+					<NodosPFilter visible={true} updateNode={this.updateNode} />
 
 					<div className={aClass}>
 						<a href="#" onClick={this.showSecondFilter} className="btn compareNodeBtn">+ Compara NodosP</a>
 					</div>
-					<NodosPFilter changeNodeData={_  => {return true;}} visible={this.state.isSecondFilterShown} />
+					<NodosPFilter updateNode={_  => true} visible={this.state.isSecondFilterShown} />
 
 				</div>
 				<div className="row precios_tab">

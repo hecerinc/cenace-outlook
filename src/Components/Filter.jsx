@@ -56,8 +56,10 @@ export default class Filter extends React.Component {
 		const selectName = e.target.name.split('_')[1];
 		const selects = {...this.state.selects};
 		selects[selectName].selected = val;
-
 		if(selectName === "region") {
+			if(val == "") {
+				return false;
+			}
 			selects['bas'].selected = null;
 			selects['zdc'].selected = null;
 		}
@@ -97,7 +99,6 @@ export default class Filter extends React.Component {
 
 		// Get the data 
 		const sels = this.state.selects;
-
 		const selectedRegionBAs = nodosmap[sels['region'].selected];
 		const basdata = sels['bas'].disabled ? [] : Object.keys(selectedRegionBAs);
 
