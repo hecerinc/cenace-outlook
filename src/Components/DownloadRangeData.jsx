@@ -6,7 +6,7 @@ import {
   IDatePickerStrings
 } from 'office-ui-fabric-react/lib/DatePicker';
 
-import './DownloadRangeData.css';
+import '../style/DownloadRangeData.css';
 
 const today: Date = new Date();
 const minDate: Date = new Date('2018-03-20');

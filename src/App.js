@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import InlineSVG from 'svg-inline-react';
-import './App.css';
-import Precios from './Precios';
-import Demanda from './Demanda';
-import DatosFrame from './Datos';
+
+import './style/App.css';
+
+import Precios from './Components/Precios';
+import Demanda from './Components/Demanda';
+import DatosFrame from './Components/Datos';
+
 /* eslint import/no-webpack-loader-syntax: off */
 
 const sectionNames = {
@@ -11,6 +14,7 @@ const sectionNames = {
 	'precios': 2,
 	'datos': 3
 };
+
 class App extends Component {
 	constructor() {
 		super();

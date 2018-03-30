@@ -3,11 +3,11 @@ import Highcharts from 'highcharts';
 import InlineSVG from 'svg-inline-react';
 import classNames from 'classnames';
 
-import NodosPFilter from './NodosPFilter';
+import NodosPFilter from './Filter';
 
-import './Precios.css';
+import '../style/Precios.css';
 
-const masterdata = require('./todaydata.json');
+const masterdata = require('../data/todaydata.json');
 
 
 

@@ -3,7 +3,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-const nodosmap = require('./nodosmap.json');
+const nodosmap = require('../data/nodosmap.json');
 
 const regiones = ['Sistema Interconectado Nacional', 'Baja California', 'Baja California Sur'];
 

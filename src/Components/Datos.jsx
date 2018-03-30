@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import NodosPFilter from './NodosPFilter';
+import NodosPFilter from './Filter';
 import DownloadRangeData from './DownloadRangeData';
 
-import './Datos.css';
+import '../style/Datos.css';
 
 export default class DatosFrame extends React.Component{
 	render() {
