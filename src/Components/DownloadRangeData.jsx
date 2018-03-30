@@ -8,7 +8,7 @@ import {
 
 import '../style/DownloadRangeData.css';
 
-const today: Date = new Date();
+// const today: Date = new Date();
 const minDate: Date = new Date('2018-03-20');
 const maxDate: Date = new Date('2018-03-30');
 

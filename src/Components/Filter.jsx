@@ -83,7 +83,7 @@ export default class Filter extends React.Component {
 		const region = selects['region'].selected;
 		const balanceArea = selects['bas'].selected;
 		const zdc = selects['zdc'].selected;
-		const nodop = selects['nodosp'].selected;
+		// const nodop = selects['nodosp'].selected;
 
 		selects['bas'].disabled = region === null;
 		selects['zdc'].disabled = balanceArea === null;
@@ -122,7 +122,6 @@ export default class Filter extends React.Component {
 		const classOne = classNames('NodosPFilter', 'col', 'filters', {
 			hidden: this.props.visible === undefined ? false : !this.props.visible
 		});
-		const nodesClass = classNames('row', {hidden: this.props.hideNodes !== undefined});
 
 		return (
 			<div className={classOne}>

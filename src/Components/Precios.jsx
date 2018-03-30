@@ -1,6 +1,5 @@
 import React from 'react';
 import Highcharts from 'highcharts';
-import InlineSVG from 'svg-inline-react';
 import classNames from 'classnames';
 
 import NodosPFilter from './Filter';

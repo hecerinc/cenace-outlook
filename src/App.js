@@ -39,7 +39,7 @@ class App extends Component {
 					<ul>
 						<li><a name="demanda" onClick={this.toggleView} className={this.state.active === 1 ? 'active' : ''} href="#">Demanda</a></li>
 						<li><a name="precios" onClick={this.toggleView} className={this.state.active === 2 ? 'active' : ''} href="#">Precios</a></li>
-						<li><a name="datos" onClick={this.toggleView} className={this.state.active == 3 ? 'active' : ''} href="#">Datos</a></li>
+						<li><a name="datos" onClick={this.toggleView} className={this.state.active === 3 ? 'active' : ''} href="#">Datos</a></li>
 					</ul>
 					<hr/>
 				</div>
