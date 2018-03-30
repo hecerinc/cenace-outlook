@@ -1,5 +1,6 @@
 import React from 'react';
 import Highcharts from 'highcharts';
+import request from 'request';
 
 import Filter from './Filter';
 
@@ -164,14 +165,18 @@ export default class Demanda extends React.Component {
 
 	selectZone(zdc) {
 		// Send the request
+		// TODO: change this
+		const date = "2017-01-02";
 		const sistema = this.state.selectedSystem;
-		const zonedata = todayData[sistema][zdc];
-		console.log(zonedata);
-		console.log(this.chart.series[0]);
-		console.log(this.chart.series[0].update);
-		this.chart.series[0].update({data: zonedata}, false);
-		this.chart.setTitle(null, {text: `${zdc} | ${(new Date().toLocaleDateString('es-MX', dateOpts))}`});
-		this.chart.redraw();
+		request(`http://localhost/outlook_server/demanda/${sistema}/${zdc}/${date}`, (error, response, body) => {
+			if(!error && response && response.statusCode == 200){
+				let res = JSON.parse(body);
+				this.chart.series[0].update({data: res.data}, false);
+				this.chart.setTitle(null, {text: `${zdc} | ${(new Date().toLocaleDateString('es-MX', dateOpts))}`});
+				this.chart.redraw();
+			}
+		});
+		// const zonedata = todayData[sistema][zdc];
 		// TODO: Maybe remove this?
 		// this.setState({selectedZone: zdc});
 	}
