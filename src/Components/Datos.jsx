@@ -25,7 +25,7 @@ export default class DatosFrame extends React.Component{
 				<div className="row">
 					<div className="col filters maincol">
 						<h3>Demanda pronosticada (MDA)</h3>
-						<NodosPFilter hideNodes={true} updateNode={_ => true} />
+						<NodosPFilter depth={3} updateNode={_ => true} />
 						<DownloadRangeData />
 
 					</div>
