@@ -1,4 +1,4 @@
-.ms-TextField-fieldGroup  {
+.ms-TextField-fieldGroup.ms-TextField-fieldGroup.ms-TextField-fieldGroup.ms-TextField-fieldGroup  {
 	width: 100%;
 	height: 50px;
 	background: transparent;
@@ -10,9 +10,9 @@
 .ms-TextField-fieldGroup:hover,
 .ms-TextField-fieldGroup:active,
 .ms-TextField-fieldGroup:focus  {
-	border: 1px solid #4CF1CD;
+	border: 1px solid #4CF1CD !important;
 }
-.ms-TextField-field{
+.ms-TextField-field.ms-TextField-field.ms-TextField-field{
 	color: #fff;
 }
 

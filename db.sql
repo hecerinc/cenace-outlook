@@ -23,6 +23,7 @@ CREATE TABLE precios (
 	energia DECIMAL(19,4),
 	perdidas DECIMAL(19,4),
 	congestion DECIMAL(19,4),
+	INDEX `date_index` (fecha),
 	FOREIGN KEY(node_id) REFERENCES nodes(nodo_id)
 );
 
@@ -34,6 +35,7 @@ CREATE TABLE demanda (
 	cdm DECIMAL(19,4),
 	cim DECIMAL(19,4),
 	eta DECIMAL(19,4),
+	INDEX date_index (fecha),
 	FOREIGN KEY(zdc_id) REFERENCES zones(id)
 );
 
