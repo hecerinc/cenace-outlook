@@ -1,13 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-import request from 'request';
 
 import NodosPFilter from './Filter';
 import DownloadRangeData from './DownloadRangeData';
 
 import '../style/Datos.css';
 
-const baseUrl = process.env['OUTLOOK_SERVER_BASE_URL'] || 'http://localhost';
+const baseUrl = process.env['REACT_APP_OUTLOOK_SERVER_BASE_URL'] || 'http://localhost';
 
 export default class DatosFrame extends React.Component{
 	constructor() {
@@ -37,7 +36,7 @@ export default class DatosFrame extends React.Component{
 	}
 	updateDownloadUrl(whichData) {
 		let url = "";
-		if(whichData == "demanda") {
+		if(whichData === "demanda") {
 			const demanda = this.state.demanda;
 			const startDate = demanda.startDate ? demanda.startDate.toISOString().split("T")[0] : null;
 			const endDate = demanda.endDate ? demanda.endDate.toISOString().split("T")[0] : null;
@@ -78,11 +77,11 @@ export default class DatosFrame extends React.Component{
 		}
 		let rel = {};
 		rel[flag] = filterData;
-		this.setState(rel, (() => {
+		this.setState(rel, () => {
 			if(updateUrl){
 				this.updateDownloadUrl(updateUrl);
 			}
-		}).bind(this));
+		});
 	}
 	shouldComponentUpdate(newProps, newState){
 		if(newProps.visible !== this.props.visible)
