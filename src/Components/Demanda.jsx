@@ -12,12 +12,13 @@ Highcharts.setOptions({
 	}
 });
 
-
 let dateOpts = {year: 'numeric', month: 'long', day: 'numeric' };
 
 const todayData = require('../data/todayDemand.json');
 
 const defaultData = todayData['SIN']['MONTERREY'];
+
+const baseUrl = process.env['OUTLOOK_SERVER_BASE_URL'] || 'http://localhost';
 
 export default class Demanda extends React.Component {
 
@@ -168,7 +169,7 @@ export default class Demanda extends React.Component {
 		// TODO: change this
 		const date = "2017-01-02";
 		const sistema = this.state.selectedSystem;
-		request(`http://localhost/outlook_server/demanda/${sistema}/${zdc}/${date}`, (error, response, body) => {
+		request(`${baseUrl}/demanda/${sistema}/${zdc}/${date}`, (error, response, body) => {
 			if(!error && response && response.statusCode == 200){
 				let res = JSON.parse(body);
 				this.chart.series[0].update({data: res.data}, false);

@@ -7,6 +7,8 @@ import DownloadRangeData from './DownloadRangeData';
 
 import '../style/Datos.css';
 
+const baseUrl = process.env['OUTLOOK_SERVER_BASE_URL'] || 'http://localhost';
+
 export default class DatosFrame extends React.Component{
 	constructor() {
 		super();
@@ -39,14 +41,14 @@ export default class DatosFrame extends React.Component{
 			const demanda = this.state.demanda;
 			const startDate = demanda.startDate ? demanda.startDate.toISOString().split("T")[0] : null;
 			const endDate = demanda.endDate ? demanda.endDate.toISOString().split("T")[0] : null;
-			url = `http://localhost/outlook_server/demanda/dump/${demanda.sistema}/${demanda.zdc}/${startDate}/${endDate}`;
+			url = `${baseUrl}/demanda/dump/${demanda.sistema}/${demanda.zdc}/${startDate}/${endDate}`;
 			this.setState({demandaURL: url});
 		}
 		else{
 			const precios = this.state.precios;
 			const startDate = precios.startDate ? precios.startDate.toISOString().split("T")[0] : null;
 			const endDate = precios.endDate ? precios.endDate.toISOString().split("T")[0] : null;
-			url = `http://localhost/outlook_server/precios/dump/${precios.nodo}/${startDate}/${endDate}`;
+			url = `${baseUrl}/precios/dump/${precios.nodo}/${startDate}/${endDate}`;
 			this.setState({preciosURL: url});
 		}
 	}

@@ -1,9 +1,14 @@
 {
-  "name": "outlook",
+  "name": "cenace-outlook",
+  "description": "An app to visualize the daily forecasted energy demand and prices for the Mexican electrical grid",
+  "description_es": "Una aplicacion para vizualizar los valores estimados del Mercado del Dia en Adelanto (MDA) de precios y cargas asignadas del Sistema Electrico Mexicano",
+  "author": "Hector Rincon",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/cenace",
   "dependencies": {
     "classnames": "^2.2.5",
+    "dotenv": "^5.0.1",
     "highcharts": "^6.0.4",
     "office-ui-fabric-react": "^5.72.0",
     "react": "^16.2.0",

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   DatePicker,
   DayOfWeek,
@@ -129,5 +128,3 @@ export default class DownloadRangeData extends React.Component {
 		);
 	}
 }
-// JV?(]vCce!UU
-// hectorr1_outlook

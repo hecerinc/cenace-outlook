@@ -2,6 +2,29 @@
 
 Outlook of the day in Day Ahead Marked (DAM) demand for Mexico National Electric System.
 
+## Setup
+
+```
+$ yarn install
+```
+
+## Configuration
+
+You must configure the base URL for the data server. This is an environment variable that you must set in a `.env` file in the root directory. 
+
+An example has been provided in `example.env`
+
+```
+$ cp env.example .env
+```
+
+Then edit the `.env` file with the correct server url.
+
+That's it!
+
+```
+$ yarn run
+```
 
 ## Reading in data:
 
