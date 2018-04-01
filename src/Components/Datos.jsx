@@ -6,7 +6,8 @@ import DownloadRangeData from './DownloadRangeData';
 
 import '../style/Datos.css';
 
-const baseUrl = process.env['REACT_APP_OUTLOOK_SERVER_BASE_URL'] || 'http://localhost';
+const baseUrl = process.env.NODE_ENV === "production" ? process.env['REACT_APP_OUTLOOK_PRODUCTION_SERVER_BASE_URL'] : process.env['REACT_APP_OUTLOOK_SERVER_BASE_URL'];
+
 
 export default class DatosFrame extends React.Component{
 	constructor() {

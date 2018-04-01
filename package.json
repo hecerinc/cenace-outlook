@@ -14,11 +14,13 @@
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.0",
     "request": "^2.85.0",
+    "source-map-explorer": "^1.5.0",
     "svg-inline-loader": "^0.8.0",
     "svg-inline-react": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "analyze": "source-map-explorer build/static/js/main.*",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
