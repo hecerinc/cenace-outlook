@@ -3,6 +3,7 @@ import Highcharts from 'highcharts';
 import classNames from 'classnames';
 
 import NodosPFilter from './Filter';
+import NodosMap from './NodosMap';
 
 import '../style/Precios.css';
 
@@ -238,7 +239,7 @@ export default class Precios extends React.Component {
 					</div>
 				</div>
 				<div className="row">
-					<h1>MAPA</h1>
+					<NodosMap />
 				</div>
 			</div>
 		);

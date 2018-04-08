@@ -18,7 +18,7 @@ const sectionNames = {
 class App extends Component {
 	constructor() {
 		super();
-		this.state = {active: 3};
+		this.state = {active: 2};
 		this.toggleView = this.toggleView.bind(this);
 	}
 
