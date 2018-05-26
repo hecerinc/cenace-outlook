@@ -20,22 +20,22 @@ export default class Filter extends React.Component {
 			selects: {
 				'region': {
 					disabled: false,
-					name: 'Sistema',
+					name: 'System',
 					selected: 'SIN'
 				},
 				'bas': { 
 					disabled: true,
-					name: 'Región de Control',
+					name: 'Control Region',
 					selected: null
 				},
 				'zdc': { 
 					disabled: true,
-					name: 'Zona de Carga',
+					name: 'Load Zone',
 					selected: null
 				},
 				'nodosp': { 
 					disabled: true,
-					name: 'NodoP',
+					name: 'PNode',
 					selected: null
 				}
 			}

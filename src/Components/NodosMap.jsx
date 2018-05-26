@@ -53,7 +53,7 @@ export default class NodosMap extends React.Component {
 			map.on('mouseenter', 'nodosp', (e) => {
 				map.getCanvas().style.cursor = 'pointer';
 				let coordinates = e.features[0].geometry.coordinates.slice();
-				let description = `<strong>CLAVE: </strong> ${e.features[0].properties.clave} <br> <strong>LOCALIDAD: </strong> ${e.features[0].properties.localidad} <br> <strong>REGION: </strong> ${e.features[0].properties.region}`;
+				let description = `<strong>NODE_ID: </strong> ${e.features[0].properties.clave} <br> <strong>LOCALITY: </strong> ${e.features[0].properties.localidad} <br> <strong>REGION: </strong> ${e.features[0].properties.region}`;
 
 				while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
 					coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -75,6 +75,18 @@ export default class NodosMap extends React.Component {
 		return(
 			<div className="mapContainer">
 				<div id="map"></div>
+				<div id='legend' className='legend'>
+					<h4>Control Regions</h4>
+					<div> <span className="circle" style={{backgroundColor: '#8E5BA3'}}></span><p>Baja California</p> </div>
+					<div> <span className="circle" style={{backgroundColor: '#223b53'}}></span><p>Baja California Sur</p> </div>
+					<div> <span className="circle" style={{backgroundColor: '#9fd356'}}></span><p>Central</p> </div>
+					<div> <span className="circle" style={{backgroundColor: '#3bb2d0'}}></span><p>Noreste</p> </div>
+					<div> <span className="circle" style={{backgroundColor: '#1b998b'}}></span><p>Noroeste</p> </div>
+					<div> <span className="circle" style={{backgroundColor: '#fbb03b'}}></span><p>Norte</p> </div>
+					<div> <span className="circle" style={{backgroundColor: '#3c91e6'}}></span><p>Occidental</p> </div>
+					<div> <span className="circle" style={{backgroundColor: '#e55e5e'}}></span><p>Oriental</p> </div>
+					<div> <span className="circle" style={{backgroundColor: '#fa824c'}}></span><p>Peninsular</p> </div>
+				</div>
 			</div>
 		);
 	}
