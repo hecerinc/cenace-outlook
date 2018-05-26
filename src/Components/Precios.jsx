@@ -1,11 +1,12 @@
 import React from 'react';
 import Highcharts from 'highcharts';
 import classNames from 'classnames';
-
+import request from 'request';
 import NodosPFilter from './Filter';
 import NodosMap from './NodosMap';
 
 import '../style/Precios.css';
+import priceComparisonOptions from './priceOpts';
 
 const masterdata = require('../data/todaydata.json');
 
@@ -16,6 +17,21 @@ const masterdata = require('../data/todaydata.json');
 const perdidas =  [83.47, 71.4, 63.37, 50.19, 50.64, 70.68, 93.07, 140.65, 136.81, 154.63, 156.39, 160.17, 163.6, 158.95, 157.12, 152.08, 151.17, 156.71, 174.96, 193, 192.45, 181.29, 167.15, 143.37];
 
 const congestion = [-0.31, -0.2, -1.98, 0, -0.02, -2.2, -0.35, -0.02, 0, -1.37, -1.19, 0, -1.99, -9.97, -5.74, -8.69, -11.76, -10.87, -19.03, -14.57, -18.24, -17.25, -17.77, -17.27];
+let dateOpts = {year: 'numeric', month: 'long', day: 'numeric' };
+
+const baseUrl = process.env.NODE_ENV === "production" ? process.env['REACT_APP_OUTLOOK_PRODUCTION_SERVER_BASE_URL'] : process.env['REACT_APP_OUTLOOK_SERVER_BASE_URL'];
+
+function fetchPrecios(nodeID, cb) {
+	window.req = request(`${baseUrl}/precios/${nodeID}`, (error, response, body) => {
+		if(error) {
+			console.log(error);
+			return false;
+		}
+		if(cb) {
+			cb(response, body);
+		}
+	});
+}
 
 
 export default class Precios extends React.Component {
@@ -24,11 +40,14 @@ export default class Precios extends React.Component {
 		super();
 		this.state = {
 			isSecondFilterShown: false,
-			selectedNode: null
+			selectedNode: null,
+			secondNodeSelected: null,
+			isComparisonActive: false
 		};
 		this.showSecondFilter = this.showSecondFilter.bind(this);
 		this.changeNodeData = this.changeNodeData.bind(this);
 		this.updateNode = this.updateNode.bind(this);
+		this.compareNodes = this.compareNodes.bind(this);
 	}
 
 	showSecondFilter(e) {
@@ -43,13 +62,13 @@ export default class Precios extends React.Component {
 				backgroundColor : 'transparent'
 			},
 			title : {
-				text : 'Precios Marginales Locales',
+				text : 'Local Marginal Prices',
 				style: {
 					color: "#fff"
 				}
 			},
 			subtitle : {
-				text : 'Nodo: 01AAN-85',
+				text : 'Node: 01AAN-85',
 				style: {
 					color: "#fff"
 				}
@@ -58,7 +77,7 @@ export default class Precios extends React.Component {
 				tickColor: '#1C324A',
 				tickInterval: 1,
 				title: {
-					text: 'Hora',
+					text: 'Hour',
 					style: {color: '#fff'}
 				},
 				type: 'linear',
@@ -119,7 +138,7 @@ export default class Precios extends React.Component {
 			},
 			tooltip : {
 				formatter : function () {
-					return '<strong>Hora '+this.x+ ' </strong><br/>' + '<strong>' + this.series.name + ': </strong>'+this.point.y+'<br/>'
+					return '<strong>Hour '+this.x+ ' </strong><br/>' + '<strong>' + this.series.name + ': </strong>'+this.point.y+'<br/>'
 					+ '<strong>Total: </strong>' + this.point.stackTotal;
 				}
 			},
@@ -152,7 +171,7 @@ export default class Precios extends React.Component {
 			},
 			series : [
 				{
-					name : 'Componente energía',
+					name : 'Energy component',
 					color: '#F3CF62',
 					// type : "line",
 					
@@ -167,12 +186,12 @@ export default class Precios extends React.Component {
 					borderWidth: 0,
 				},
 				{
-					name: 'Component pérdidas',
+					name: 'Loss component',
 					data: perdidas,
 					borderWidth: 0,
 				},
 				{
-					name: 'Componente congestión',
+					name: 'Congestion component',
 					color: '#FE8000',
 					data: congestion,
 					borderWidth: 0,
@@ -183,11 +202,16 @@ export default class Precios extends React.Component {
 	}
 	updateNode(fieldName, nodeValue) {
 		if(fieldName == "nodosp") {
-			this.setState({selectedNode: nodeValue});
-			this.changeNodeData(nodeValue);
+			this.setState({selectedNode: nodeValue}, _ => {
+				this.changeNodeData(nodeValue);
+			});
 		}
 	}
 	changeNodeData(node) {
+		if(this.state.isComparisonActive) {
+			this.compareNodes("nodosp", node);
+			return false;
+		}
 		const nodeData = masterdata[node];
 		this.chart.series[0].update({
 			data: nodeData['energia']
@@ -201,6 +225,58 @@ export default class Precios extends React.Component {
 		this.chart.setTitle(null, {text: `Nodo: ${node}`});
 		this.chart.redraw();
 	}
+	compareNodes(fieldName, nodeValue) { // nodeValue is the node_id
+		if(fieldName == "nodosp") {
+			if(this.state.selectedNode == null)
+				return false;
+			// Got to a node, let's compare them nodes
+			if(!this.state.isComparisonActive) {
+				this.chart.destroy();
+				this.setState({secondNodeSelected: nodeValue, isComparisonActive: true});
+
+				priceComparisonOptions.title.text = `${this.state.selectedNode} vs. ${nodeValue}`;
+				priceComparisonOptions.series[0].name = this.state.selectedNode;
+				priceComparisonOptions.series[0].data = masterdata[this.state.selectedNode].energia;
+				// Retrieve the other node data
+				fetchPrecios(nodeValue, ((response, body) => {
+					if(response.statusCode !== 200) {
+						console.error("Failed to retrieve information for other node");
+						return false;
+					}
+					let res = JSON.parse(body);
+					res = JSON.parse(res[0].precios.replace(/\\+/g, ''));
+					priceComparisonOptions.series.push({
+						name: nodeValue,
+						data: res.pml,
+						color: '#4CF1CD'
+					});
+					this.chart = new Highcharts.Chart('highcharts2', priceComparisonOptions);
+				}).bind(this));
+			}
+			else {
+				// Just update the chart (as opposed to creating a new one)
+				const nodeData = masterdata[this.state.selectedNode].energia;
+				fetchPrecios(nodeValue, ((response, body) => {
+					if(response.statusCode != 200){
+						console.log(response);
+						return false;
+					}
+					let res = JSON.parse(body);
+					res = JSON.parse(res[0].precios.replace(/\\+/g, ''));
+					this.chart.series[0].update({
+						name: this.state.selectedNode,
+						data: nodeData
+					}, true);
+					this.chart.series[1].update({
+						name: nodeValue,
+						data: res.pml
+					}, true);
+					this.chart.setTitle({text: `${this.state.selectedNode} vs. ${nodeValue}`});
+					this.chart.redraw();
+				}).bind(this));
+			}
+		}
+	}
 	render() {
 		const hideClass = classNames('Precios', {hidden: !this.props.visible});
 		const aClass = classNames('col', 'filters', {hidden: this.state.isSecondFilterShown});
@@ -208,8 +284,8 @@ export default class Precios extends React.Component {
 			<div className={hideClass}>
 				<div className="row">
 					<div className="col titles">
-						<h2>Precios Marginales Locales</h2>
-						<h3>{new Date().toLocaleString().split(',')[0]}</h3>
+						<h2>Local Marginal Prices</h2>
+						<h3>{new Date().toLocaleDateString('en-US', dateOpts)}</h3>
 					</div>
 				</div>
 				<div className="row">
@@ -217,17 +293,17 @@ export default class Precios extends React.Component {
 					<NodosPFilter visible={true} updateNode={this.updateNode} />
 
 					<div className={aClass}>
-						<a href="#" onClick={this.showSecondFilter} className="btn compareNodeBtn">+ Compara NodosP</a>
+						<a href="#" onClick={this.showSecondFilter} className="btn compareNodeBtn">+ Compare PNodes</a>
 					</div>
-					<NodosPFilter updateNode={_  => true} visible={this.state.isSecondFilterShown} />
+					<NodosPFilter updateNode={this.compareNodes} visible={this.state.isSecondFilterShown} />
 
 				</div>
 				<div className="row precios_tab">
 					<div className="col-md-3">
-						<a href="#">Listado</a>
+						<a href="#">List</a>
 					</div>
 					<div className="col-md-3">
-						<a className="active" href="#">Gr&aacute;fica</a>
+						<a className="active" href="#">Graph</a>
 					</div>
 				</div>
 				<hr/>
