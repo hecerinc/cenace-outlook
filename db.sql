@@ -17,12 +17,8 @@ CREATE TABLE nodes (
 CREATE TABLE precios (
 	id int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	fecha DATE NOT NULL,
-	hora TINYINT UNSIGNED NOT NULL,
 	node_id VARCHAR(30) NOT NULL,
-	pml DECIMAL(19,4),
-	energia DECIMAL(19,4),
-	perdidas DECIMAL(19,4),
-	congestion DECIMAL(19,4),
+	precios JSON,
 	INDEX `date_index` (fecha),
 	FOREIGN KEY(node_id) REFERENCES nodes(nodo_id)
 );
