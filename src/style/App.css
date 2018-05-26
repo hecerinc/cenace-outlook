@@ -28,7 +28,10 @@ hr{
 	width: 80%;
 	margin: 0 auto;
 	margin-top: 4%;
-	margin-bottom: 6%;
+	margin-bottom: 4%;
+}
+.App > h1 {
+	font-size: 2.5rem;
 }
 .chartContainer{
 	margin-top: 4%;
@@ -115,6 +118,7 @@ hr{
 	padding: 30px 60px;
 }
 .scalarTable{
+	width: 100%;
 	border-collapse: collapse;
 }
 .scalarTable p{
@@ -155,19 +159,48 @@ hr{
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
 }
-.demandaprecio ul li{
+.demandaprecio ul.nav-tabs.nav-tabs li{
 	display: inline;
 	margin-right: 10px;
+	margin-bottom: -1px;
 }
 .demandaprecio ul li a{
 	color: #fff;
 	text-decoration: none;
 	font-size: 24px;
-	padding: 0 10px 2px;
+	padding: 10px 20px;
 	display: inline-block;
 	transition: all 100ms;
+	border: 1px solid transparent;
+	border-top-right-radius: .25rem;
+	border-top-left-radius: .25rem;
 }
 .demandaprecio a.active, .demandaprecio a:hover{
-	border-bottom: 2px solid #1DD4FF;
+	border-color: #537095 #537095 #1C324A;
+	background-color: #1C324A;
+
 }
+.footer-logos {
+	display: flex;
+	margin-top: 7%;
+}
+.footer-logos .col {
+	flex: 1;
+}
+.footer-logos .col img {
+	width: 40%;
+	/*margin: 0 auto;*/
+	/*display: block;*/
+}
+.footer-logos .col:nth-child(2) {
+	padding: 0 5%;
+	text-align: center;
+}
+.footer-logos .col:nth-child(3) {
+	justify-content: flex-end;
+	text-align: right;
+}
+

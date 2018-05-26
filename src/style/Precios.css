@@ -56,3 +56,44 @@
 	font: 12px/20px 'Segoe UI', Helvetica, sans-serif;
 	color: #2a2a2a;
 }
+
+.legend {
+	background-color: #fff;
+	border-radius: 3px;
+	bottom: 30px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	padding: 10px;
+	position: absolute;
+	right: 10px;
+	z-index: 1;
+	color: #444;
+}
+
+.legend h4 {
+  margin: 0 0 10px;
+}
+
+.legend p {
+	margin: 0;
+	display: inline-block;
+	top: 0;
+}
+
+.legend div {
+	position: relative;
+}
+
+.legend div .circle {
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 5px;
+	opacity: 0.8;
+	background-color: #d49a66;
+	width: 10px;
+	height: 10px;
+	/*margin: 0 20px;*/
+}
+
+
+
