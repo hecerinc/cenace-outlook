@@ -4,12 +4,13 @@ import {
   DayOfWeek,
   IDatePickerStrings
 } from 'office-ui-fabric-react/lib/DatePicker';
-
+import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 import '../style/DownloadRangeData.css';
 
+initializeIcons();
 // const today: Date = new Date();
-const minDate: Date = new Date('2017-01-02');
-const maxDate: Date = new Date('2017-12-31');
+const minDate: Date = new Date('2016-01-01');
+const maxDate: Date = new Date('2018-05-19');
 
 const DayPickerStrings: IDatePickerStrings = {
 	months: [
@@ -89,18 +90,29 @@ export default class DownloadRangeData extends React.Component {
 	// 		}
 	// 	}
 	// }
+	validateParams = (e) => {
+		if(e.target.href == "#") {
+			e.preventDefault();
+			return false;
+		}
+		if(!this.props.validate(e.target.name)) {
+			e.preventDefault();
+			alert('Please complete all fields');
+			return false;
+		}
+		return true;
+	}
 	render() {
-		console.log(this.props.downloadURL);
 		return(
 			<div className="DownloadRangeData">
 				<div className="row">
 					<div className="startdate col">
-						<h4>Fecha inicial</h4>
+						<h4>Start date</h4>
 						<DatePicker
 							isRequired={ true }
 							onSelectDate = {newDate => {this.props.onSelectDate(newDate, "startDate")}}
 							firstDayOfWeek={ DayOfWeek.Sunday }
-							strings={ DayPickerStrings }
+							// strings={ DayPickerStrings }
 							placeholder='Select a date...'
 							minDate={ minDate }
 							maxDate={ maxDate }
@@ -109,12 +121,12 @@ export default class DownloadRangeData extends React.Component {
 						/>
 					</div>
 					<div className="enddate col" style={{paddingLeft: '20px'}}>
-						<h4>Fecha final</h4>
+						<h4>End date</h4>
 						<DatePicker
 							isRequired={ true }
 							onSelectDate = {newDate => {this.props.onSelectDate(newDate, "endDate")}}
 							firstDayOfWeek={ DayOfWeek.Sunday }
-							strings={ DayPickerStrings }
+							// strings={ DayPickerStrings }
 							placeholder='Select a date...'
 							minDate={ minDate }
 							maxDate={ maxDate }
@@ -123,7 +135,7 @@ export default class DownloadRangeData extends React.Component {
 						/>
 					</div>
 				</div>
-				<a target="_blank" rel="noopener noreferrer" href={this.props.downloadURL || '#'} className="download btn">Descargar</a>
+				<a target="_blank" rel="noopener noreferrer" name={this.props.validateName} onClick={this.validateParams} href={this.props.downloadURL || '#'} className="download btn">Download</a>
 			</div>
 		);
 	}

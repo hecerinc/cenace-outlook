@@ -34,6 +34,7 @@ export default class DatosFrame extends React.Component{
 		this.updateDownloadUrl = this.updateDownloadUrl.bind(this);
 		this.updateDateSelection = this.updateDateSelection.bind(this);
 		this.updateFilter = this.updateFilter.bind(this);
+		this.validateSubmit = this.validateSubmit.bind(this);
 	}
 	updateDownloadUrl(whichData) {
 		let url = "";
@@ -63,6 +64,7 @@ export default class DatosFrame extends React.Component{
 				filterData['sistema'] = newVal;
 			break;
 			case "bas":
+				filterData['region'] = newVal;
 			break;
 			case "zdc":
 				filterData['zdc'] = newVal;
@@ -104,8 +106,14 @@ export default class DatosFrame extends React.Component{
 				this.updateDownloadUrl("demanda");
 			}
 		});
-
-
+	}
+	validateSubmit(name) {
+		const fields = this.state[name];
+		for(var key in fields) {
+			if(fields[key] === null)
+				return false;
+		}
+		return true;
 	}
 	render() {
 		const hideClass = classNames('DatosFrame', {hidden: !this.props.visible});
@@ -113,26 +121,40 @@ export default class DatosFrame extends React.Component{
 			<div className={hideClass}>
 				<div className="row">
 					<div className="col titles">
-						<h2>Descarga los datos</h2>
+						<h2>Download data</h2>
 					</div>
 				</div>
 				<div className="row mb5">
 					<div className="col">
-						<p className="white">Los datos fueron descargados de lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel similique dignissimos reiciendis quidem ipsam laboriosam ex deserunt enim, laudantium culpa aut corrupti quos iste laborum assumenda hic placeat quo quia!</p>
-						<p>Link al scraper: <a className="green"  rel="noopener noreferrer" href="https://github.com/hecerinc/CENACE-scraper" target="_blank">github.com/hecerinc/CENACE-scraper</a></p>
+						<p className="white">The data for this visualization is being scraped from the official CENACE data available at <a href="http://www.cenace.gob.mx/GraficaDemanda.aspx" className="green">http://www.cenace.gob.mx/GraficaDemanda.aspx</a>. <strong>Note:</strong> Times registered in CST.</p>
+						<p>You can access the scraper being used at: <a className="green"  rel="noopener noreferrer" href="https://github.com/hecerinc/CENACE-scraper" target="_blank">github.com/hecerinc/CENACE-scraper</a></p>
 					</div>
 				</div>
 				<div className="row">
 					<div className="col filters maincol">
-						<h3>Demanda pronosticada (MDA)</h3>
+						<h3>Forecast Demand (DAM)</h3>
 						<NodosPFilter depth={3} updateNode={(filterName, value) => {this.updateFilter(filterName, value, 'demanda')}} />
-						<DownloadRangeData start={this.state.demanda.startDate} end={this.state.demanda.endDate} onSelectDate={(newDate, whichDate) => {this.updateDateSelection("demanda", whichDate, newDate)}} downloadURL={this.state.demandaURL} />
+						<DownloadRangeData 
+							validateName="demanda" 
+							start={this.state.demanda.startDate} 
+							end={this.state.demanda.endDate} 
+							onSelectDate={(newDate, whichDate) => {this.updateDateSelection("demanda", whichDate, newDate)}} 
+							downloadURL={this.state.demandaURL}
+							validate={this.validateSubmit}
+						/>
 
 					</div>
 					<div className="col filters maincol">
-						<h3>Precios Marginales Locales</h3>
+						<h3>Local Marginal Prices</h3>
 						<NodosPFilter updateNode={(filterName, value) => {this.updateFilter(filterName, value, 'precios')}} />
-						<DownloadRangeData start={this.state.precios.startDate} end={this.state.precios.endDate} onSelectDate={(newDate, whichDate) => {this.updateDateSelection("precios", whichDate, newDate)}} downloadURL={this.state.preciosURL} />
+						<DownloadRangeData 
+							validateName="precios" 
+							start={this.state.precios.startDate} 
+							end={this.state.precios.endDate} 
+							onSelectDate={(newDate, whichDate) => {this.updateDateSelection("precios", whichDate, newDate)}} 
+							downloadURL={this.state.preciosURL}
+							validate={this.validateSubmit}
+						/>
 
 					</div>
 				</div>
