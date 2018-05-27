@@ -12,11 +12,11 @@ const masterdata = require('../data/todaydata.json');
 
 
 
-// const energia = [906.68, 779.66, 699.98, 570.82, 575.25, 761.06, 969.8, 1407.68, 1405.7, 1544.38, 1587.43, 1573.09, 1515.52, 1589.06, 1571.96, 1578.69, 1582.8, 1553.74, 1624.75, 1647.01, 1639.93, 1564.79, 1553.45, 1467.59];
 
+const energia = [906.68, 779.66, 699.98, 570.82, 575.25, 761.06, 969.8, 1407.68, 1405.7, 1544.38, 1587.43, 1573.09, 1515.52, 1589.06, 1571.96, 1578.69, 1582.8, 1553.74, 1624.75, 1647.01, 1639.93, 1564.79, 1553.45, 1467.59];
 const perdidas =  [83.47, 71.4, 63.37, 50.19, 50.64, 70.68, 93.07, 140.65, 136.81, 154.63, 156.39, 160.17, 163.6, 158.95, 157.12, 152.08, 151.17, 156.71, 174.96, 193, 192.45, 181.29, 167.15, 143.37];
-
 const congestion = [-0.31, -0.2, -1.98, 0, -0.02, -2.2, -0.35, -0.02, 0, -1.37, -1.19, 0, -1.99, -9.97, -5.74, -8.69, -11.76, -10.87, -19.03, -14.57, -18.24, -17.25, -17.77, -17.27];
+
 let dateOpts = {year: 'numeric', month: 'long', day: 'numeric' };
 
 const baseUrl = process.env.NODE_ENV === "production" ? process.env['REACT_APP_OUTLOOK_PRODUCTION_SERVER_BASE_URL'] : process.env['REACT_APP_OUTLOOK_SERVER_BASE_URL'];
@@ -40,9 +40,9 @@ export default class Precios extends React.Component {
 		super();
 		this.state = {
 			isSecondFilterShown: false,
+			isComparisonActive: false,
 			selectedNode: null,
-			secondNodeSelected: null,
-			isComparisonActive: false
+			secondNodeSelected: null
 		};
 		this.showSecondFilter = this.showSecondFilter.bind(this);
 		this.changeNodeData = this.changeNodeData.bind(this);
@@ -182,7 +182,7 @@ export default class Precios extends React.Component {
 					// 		[1, 'rgba(2,0,0,0)']
 					// 	]
 					// },
-					data : [906.68, 779.66, 699.98, 570.82, 575.25, 761.06, 969.8, 1407.68, 1405.7, 1544.38, 1587.43, 1573.09, 1515.52, 1589.06, 1571.96, 1578.69, 1582.8, 1553.74, 1624.75, 1647.01, 1639.93, 1564.79, 1553.45, 1467.59],
+					data : energia,
 					borderWidth: 0,
 				},
 				{
@@ -209,7 +209,7 @@ export default class Precios extends React.Component {
 	}
 	changeNodeData(node) {
 		if(this.state.isComparisonActive) {
-			this.compareNodes("nodosp", node);
+			this.compareNodes("nodosp", node, true); // TODO: Change this if we ever have > 1 filter
 			return false;
 		}
 		const nodeData = masterdata[node];
@@ -225,18 +225,19 @@ export default class Precios extends React.Component {
 		this.chart.setTitle(null, {text: `Nodo: ${node}`});
 		this.chart.redraw();
 	}
-	compareNodes(fieldName, nodeValue) { // nodeValue is the node_id
+	compareNodes(fieldName, nodeValue, filterID) { // nodeValue is the node_id
 		if(fieldName == "nodosp") {
 			if(this.state.selectedNode == null)
 				return false;
 			// Got to a node, let's compare them nodes
 			if(!this.state.isComparisonActive) {
-				this.chart.destroy();
+				// Not active, create the chart
 				this.setState({secondNodeSelected: nodeValue, isComparisonActive: true});
 
 				priceComparisonOptions.title.text = `${this.state.selectedNode} vs. ${nodeValue}`;
 				priceComparisonOptions.series[0].name = this.state.selectedNode;
 				priceComparisonOptions.series[0].data = masterdata[this.state.selectedNode].energia;
+
 				// Retrieve the other node data
 				fetchPrecios(nodeValue, ((response, body) => {
 					if(response.statusCode !== 200) {
@@ -250,12 +251,14 @@ export default class Precios extends React.Component {
 						data: res.pml,
 						color: '#4CF1CD'
 					});
+					this.chart.destroy();
 					this.chart = new Highcharts.Chart('highcharts2', priceComparisonOptions);
 				}).bind(this));
 			}
 			else {
 				// Just update the chart (as opposed to creating a new one)
-				const nodeData = masterdata[this.state.selectedNode].energia;
+				// We need to know if we're updating the first or second series (i.e. left or right filter)
+				const updateIndex = filterID ? 1 : 0;
 				fetchPrecios(nodeValue, ((response, body) => {
 					if(response.statusCode != 200){
 						console.log(response);
@@ -263,19 +266,22 @@ export default class Precios extends React.Component {
 					}
 					let res = JSON.parse(body);
 					res = JSON.parse(res[0].precios.replace(/\\+/g, ''));
-					this.chart.series[0].update({
-						name: this.state.selectedNode,
-						data: nodeData
-					}, true);
-					this.chart.series[1].update({
+
+					this.chart.series[updateIndex].update({
 						name: nodeValue,
 						data: res.pml
 					}, true);
+
 					this.chart.setTitle({text: `${this.state.selectedNode} vs. ${nodeValue}`});
 					this.chart.redraw();
 				}).bind(this));
 			}
 		}
+	}
+	shouldComponentUpdate(nextProps, nextState) {
+		if(this.state.isComparisonActive !== nextState.isComparisonActive)
+			return false;
+		return true;
 	}
 	render() {
 		const hideClass = classNames('Precios', {hidden: !this.props.visible});
@@ -299,7 +305,7 @@ export default class Precios extends React.Component {
 
 				</div>
 				<div className="row precios_tab">
-					<div className="col-md-3">
+					<div className="col-md-3" style={{display: 'none'}}>
 						<a href="#">List</a>
 					</div>
 					<div className="col-md-3">
